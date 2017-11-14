@@ -6,34 +6,32 @@ import org.jsoup.Jsoup
 import java.util.*
 
 /**
- * Created by Flying SnowBean on 16-3-5.
+ * @author wupanjie
  */
-class BookSource() : Source<ArrayList<Cover>> {
-    override fun obtain(url: String): ArrayList<Cover> {
-        val list = ArrayList<Cover>()
+class BookSource : Source<ArrayList<Cover>> {
+  override fun obtain(url: String): ArrayList<Cover> {
+    val list = ArrayList<Cover>()
 
-        val html = getHtml(url)
-        //log(html)
-        var doc = Jsoup.parse(html)
-        // var doc = Jsoup.connect(url).get()
+    val html = getHtml(url)
+    val doc = Jsoup.parse(html)
 
-        val elements = doc.select("ul.chinaMangaContentList").select("li")
+    val elements = doc.select("ul.chinaMangaContentList").select("li")
 
-        for (element in elements) {
-            val coverUrl = if (element.select("img").attr("src").contains("http")) {
-                element.select("img").attr("src")
-            } else {
-                "http://ishuhui.net" + element.select("img").attr("src")
-            }
+    for (element in elements) {
+      val coverUrl = if (element.select("img").attr("src").contains("http")) {
+        element.select("img").attr("src")
+      } else {
+        "http://ishuhui.net" + element.select("img").attr("src")
+      }
 
-            val title = element.select("p").text()
-            val link = "http://ishuhui.net" + element.select("div.chinaMangaContentImg").select("a").attr("href")
+      val title = element.select("p").text()
+      val link = "http://ishuhui.net" + element.select("div.chinaMangaContentImg").select("a").attr("href")
 
-            val cover = Cover(coverUrl, title, link)
-            list.add(cover)
-        }
-
-        return list
+      val cover = Cover(coverUrl, title, link)
+      list.add(cover)
     }
+
+    return list
+  }
 
 }

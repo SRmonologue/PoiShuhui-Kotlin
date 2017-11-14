@@ -1,19 +1,21 @@
 package com.flying.xiaopo.poishuhui_kotlin
 
 import android.app.Application
-
-import com.squareup.picasso.LruCache
+import com.jakewharton.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
+import okhttp3.OkHttpClient
 
 /**
- * Created by Flying SnowBean on 16-3-9.
+ * @author wupanjie
  */
-class   App : Application() {
-    private val TAG = App::class.java.simpleName
+class App : Application() {
+  override fun onCreate() {
+    super.onCreate()
+    val client = OkHttpClient()
+    val picasso = Picasso.Builder(this)
+        .downloader(OkHttp3Downloader(client))
+        .build()
 
-    override fun onCreate() {
-        super.onCreate()
-        val maxMem = Runtime.getRuntime().maxMemory().toInt()
-        Picasso.Builder(this).memoryCache(LruCache(maxMem / 8)).build()
-    }
+    Picasso.setSingletonInstance(picasso)
+  }
 }

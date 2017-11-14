@@ -1,7 +1,7 @@
 package com.flying.xiaopo.poishuhui_kotlin.domain.model
 
 /**
- * Created by Flying SnowBean on 16-3-2.
+ * @author wupanjie
  */
 data class Cover(val coverUrl: String, val title: String, val link: String)
 
@@ -14,8 +14,9 @@ data class BookInfo(val updateTime: String, val description: String)
 data class Page(val title: String, val link: String)
 
 data class BookDetail(val pages: List<Page>, val info: BookInfo) {
-    operator fun get(position: Int) = pages[position]
-    fun size() = pages.size
+  operator fun get(position: Int) = pages[position]
+  val size
+    get() = pages.size
 }
 
 data class Comic(val comicUrl: String)
